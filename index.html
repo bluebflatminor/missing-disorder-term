@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>A Missing Disorder Term — Graphene–Ferroelectric Photonic Memory</title>
+<meta name="description" content="Extending photonic variability-yield models to the graphene–ferroelectric memory stack: a pre-experimental working paper.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" onerror="this.dataset.failed=1"></script>
+<style>
+  /* Light palette (default) */
+  :root, [data-theme="light"] {
+    --bg: #f4f1ea;
+    --paper: #fbf9f4;
+    --ink: #1c1a17;
+    --ink-soft: #4a463f;
+    --ink-faint: #76706655;
+    --rule: #d9d3c7;
+    --accent: #7a2e1d;       /* oxblood */
+    --accent-soft: #a8533f;
+    --tag-measured: #2f5d3a;
+    --tag-theory: #8a5a13;
+    --tag-analogy: #6a3a6a;
+    --mono: 'Spline Sans Mono', ui-monospace, monospace;
+    --serif: 'Newsreader', Georgia, serif;
+    --maxw: 47rem;
+  }
+  /* Dark palette: applied when system prefers dark AND no manual override... */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14130f;
+      --paper: #1a1815;
+      --ink: #e8e3d8;
+      --ink-soft: #b3ac9d;
+      --ink-faint: #6b655955;
+      --rule: #322e27;
+      --accent: #d98567;
+      --accent-soft: #c4694b;
+      --tag-measured: #79b88a;
+      --tag-theory: #d6a44f;
+      --tag-analogy: #c08fc0;
+    }
+  }
+  /* ...or whenever the user explicitly selects dark */
+  [data-theme="dark"] {
+    --bg: #14130f;
+    --paper: #1a1815;
+    --ink: #e8e3d8;
+    --ink-soft: #b3ac9d;
+    --ink-faint: #6b655955;
+    --rule: #322e27;
+    --accent: #d98567;
+    --accent-soft: #c4694b;
+    --tag-measured: #79b88a;
+    --tag-theory: #d6a44f;
+    --tag-analogy: #c08fc0;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.62;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ---- header band ---- */
+  header {
+    background:
+      radial-gradient(120% 140% at 12% 0%, rgba(122,46,29,0.06), transparent 60%),
+      var(--paper);
+    border-bottom: 1px solid var(--rule);
+    padding: 4.5rem 0 2.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(var(--ink-faint) 0.5px, transparent 0.5px);
+    background-size: 11px 11px;
+    opacity: 0.5;
+    pointer-events: none;
+    mask-image: linear-gradient(180deg, transparent, #000 40%, #000 60%, transparent);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1.3rem;
+    position: relative;
+  }
+  h1 {
+    font-size: clamp(2rem, 5.5vw, 3.1rem);
+    line-height: 1.06;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    margin: 0 0 0.5rem;
+    position: relative;
+  }
+  h1 .sub {
+    display: block;
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink-soft);
+    letter-spacing: -0.01em;
+    margin-top: 0.7rem;
+    line-height: 1.3;
+  }
+  .byline {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-top: 1.8rem;
+    letter-spacing: 0.02em;
+    position: relative;
+  }
+  .byline .name { color: var(--ink); font-weight: 500; }
+  .byline .meta { display: block; margin-top: 0.35rem; color: var(--ink-soft); }
+  .header-actions { margin-top: 1.6rem; display: flex; gap: 0.7rem; flex-wrap: wrap; position: relative; }
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    padding: 0.5rem 0.95rem;
+    border-radius: 2px;
+    transition: all 0.18s ease;
+    background: transparent;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .btn.primary { background: var(--accent); color: #fbf9f4; border-color: var(--accent); }
+  .btn.primary:hover { background: var(--accent-soft); color: #fff; }
+
+  /* theme toggle */
+  #theme-toggle {
+    position: fixed;
+    top: 1rem; right: 1rem;
+    z-index: 50;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 0.45rem 0.7rem;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  }
+  #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  #theme-toggle .dot {
+    width: 0.7rem; height: 0.7rem; border-radius: 50%;
+    border: 1px solid currentColor;
+    background: linear-gradient(90deg, var(--ink) 0 50%, transparent 50% 100%);
+  }
+  @media (max-width: 600px) {
+    #theme-toggle { top: 0.6rem; right: 0.6rem; padding: 0.4rem 0.55rem; font-size: 0.62rem; }
+  }
+
+  /* ---- abstract ---- */
+  .abstract {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 2px;
+    padding: 1.7rem 1.8rem;
+    margin: 2.6rem 0 1rem;
+    font-size: 0.96em;
+  }
+  .abstract h2 {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 0.9rem;
+    font-weight: 500;
+  }
+  .abstract p { margin: 0 0 0.9rem; }
+  .abstract p:last-child { margin-bottom: 0; }
+
+  main { padding: 1rem 0 4rem; }
+
+  section { margin-top: 2.8rem; }
+  h2.sec {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    margin: 0 0 0.3rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--rule);
+  }
+  h2.sec .num {
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-right: 0.6rem;
+    vertical-align: 0.08em;
+  }
+  h3.sub {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 1.8rem 0 0.4rem;
+    letter-spacing: -0.005em;
+  }
+  p { margin: 0.9rem 0; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  .lede { font-size: 1.04em; }
+
+  /* definition blocks */
+  .defs { margin: 1.2rem 0; }
+  .def {
+    margin: 0 0 1rem;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--rule);
+  }
+  .def .term { font-weight: 600; display: block; margin-bottom: 0.15rem; }
+  .def.danger { border-left-color: var(--accent); }
+  .def.danger .term { color: var(--accent); }
+
+  .callout {
+    background: color-mix(in srgb, var(--accent) 7%, var(--paper));
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--rule));
+    border-radius: 2px;
+    padding: 1.15rem 1.3rem;
+    margin: 1.4rem 0;
+    font-size: 0.97em;
+  }
+
+  /* tables */
+  .tablewrap { margin: 1.5rem 0; overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.82rem; font-family: var(--mono); }
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin-bottom: 0.6rem;
+    line-height: 1.45;
+  }
+  caption b { font-style: normal; font-weight: 600; color: var(--ink); }
+  th, td { text-align: left; padding: 0.5rem 0.7rem 0.5rem 0; vertical-align: top; }
+  thead th { border-bottom: 1.5px solid var(--ink-soft); font-weight: 500; color: var(--ink); }
+  tbody tr { border-bottom: 1px solid var(--rule); }
+  tbody tr:last-child { border-bottom: 1.5px solid var(--ink-soft); }
+  td:first-child, th:first-child { padding-left: 0; }
+  .tag { font-size: 0.92em; font-weight: 500; }
+  .t-measured { color: var(--tag-measured); }
+  .t-theory { color: var(--tag-theory); }
+  .t-analogy { color: var(--tag-analogy); }
+
+  /* experiments */
+  .exp {
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 1.1rem 1.3rem;
+    margin: 1rem 0;
+    background: var(--paper);
+  }
+  .exp .eid {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .exp .etitle { font-weight: 600; margin: 0.2rem 0 0.5rem; }
+  .exp p { margin: 0.5rem 0; font-size: 0.95em; }
+  .decision { color: var(--ink-soft); }
+  .decision b { color: var(--ink); font-style: normal; }
+
+  ol.fals { counter-reset: f; list-style: none; padding: 0; margin: 1.2rem 0; }
+  ol.fals li {
+    counter-increment: f;
+    position: relative;
+    padding-left: 2.4rem;
+    margin: 0 0 1rem;
+  }
+  ol.fals li::before {
+    content: counter(f);
+    position: absolute; left: 0; top: -0.1rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    width: 1.6rem; height: 1.6rem;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--accent);
+  }
+
+  .formula {
+    text-align: center;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+    font-size: 0.95em;
+  }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 2.4rem 0 4rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    line-height: 1.7;
+  }
+  footer .anchors { font-family: var(--serif); font-size: 0.86rem; line-height: 1.55; }
+  footer .anchors b { color: var(--ink); }
+  footer code { font-size: 0.85em; color: var(--accent-soft); }
+  .repo-note {
+    margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--rule);
+    font-size: 0.78rem;
+  }
+
+  sup.fn { font-size: 0.7em; color: var(--accent); font-family: var(--mono); }
+
+  /* fade-in */
+  /* Content is visible by DEFAULT (no JS required). The fade-in is a pure
+     enhancement, enabled only after JS confirms it can run by adding
+     .js-anim to <html>. If any script fails, content stays fully visible. */
+  .js-anim .fade { opacity: 0; transform: translateY(12px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .js-anim .fade.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js-anim .fade { opacity: 1; transform: none; transition: none; } }
+
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    header { padding: 3rem 0 2rem; }
+    table { font-size: 0.74rem; }
+  }
+</style>
+</head>
+<body>
+
+<button id="theme-toggle" aria-label="Switch colour theme" title="Switch colour theme">
+  <span class="dot" aria-hidden="true"></span><span id="theme-label">Auto</span>
+</button>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Working Paper · Pre-experimental analysis · May 2026</p>
+    <h1>A Missing Disorder Term
+      <span class="sub">Extending photonic variability-yield models to the graphene–ferroelectric memory stack</span>
+    </h1>
+    <p class="byline">
+      <span class="name">Nils Haaland</span>
+      <span class="meta">Independent researcher · Omaha</span>
+    </p>
+    <div class="header-actions">
+      <a class="btn primary" href="Haaland_MissingDisorderTerm_2026.pdf">Read PDF</a>
+      <a class="btn" href="#abstract">Abstract</a>
+      <a class="btn" href="#experiments">Experimental programme</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <div class="abstract fade" id="abstract">
+    <h2>Abstract</h2>
+    <p>Silicon photonics already has a mature apparatus for predicting circuit yield from wafer-scale fabrication variability: spatial variation is modeled as a correlated random field, decomposed by length scale, projected onto the layout through a sensitivity matrix, and propagated to yield (Bogaerts and co-workers, 2015–2019). That apparatus, not single-cell “hero” metrics, is the right tool for evaluating whether a graphene–ferroelectric photonic-memory array can be manufactured. This paper does not reinvent it. It argues that the existing framework is missing one term required for this specific material system, and identifies the measurement that would supply it.</p>
+    <p>The silicon variability models treat a <em>fixed</em> wafer map: geometric variation set by lithography and etch, characterized once. The dominant disorder in a graphene–ferroelectric stack is different in kind — carrier-density variation from charge puddles, transfer artifacts, and, critically, the switchable ferroelectric domain landscape. Because graphene transfer artifacts can mechanically pin ferroelectric domain walls, a component of the carrier-density disorder is <em>re-imprinted on every write cycle</em>: an active, switch-coupled term with no analog in silicon geometric variability and not captured by a static wafer map. We argue this term, not single-cell graphene quality, is the open question for array manufacturability, and that the measurement which would parameterize it is a spatial carrier-density correlation length <i>L</i><sub>corr</sub> taken <em>before and after a switching cycle</em>, decomposed to separate the fixed term from the switch-coupled one. As a secondary contribution, we sort eleven integration routes by constraint type — irreducible substrate physics versus reducible process kinetics — as a research-allocation heuristic for which routes warrant a wafer at all. The central claim is falsifiable: if the switch-coupled component is negligible and <i>L</i><sub>corr</sub> is short, the existing static-map framework suffices unmodified and the paper’s premise is wrong.</p>
+  </div>
+
+  <section class="fade" id="s1">
+    <h2 class="sec"><span class="num">1</span>What this paper is</h2>
+    <p class="lede">This paper grew out of a prior analysis (Paper&nbsp;4, v10.3) that ranked eleven graphene integration routes by a Monte Carlo estimate of joint per-cell pass probability. That framing had a structural flaw worth stating once, because correcting it is what produced the present paper: a per-cell probability, however carefully simulated, does not answer the question that decides manufacturability, which is whether per-cell variation is correlated across the array on a scale the optical mode cannot average. The headline percentage was downstream of a question it never asked. This paper discards the per-cell ranking as the contribution and reorients around the array-scale question — which, as it turns out, the photonics community already has a framework for.</p>
+
+    <h3 class="sub">1.1 · The established framework, and the gap</h3>
+    <p>Silicon photonics treats wafer-scale variability quantitatively. The variation in a functional parameter across a circuit is modeled as a spatially correlated random field, separated into systematic and random contributions at different length scales, mapped onto the layout via a sensitivity matrix, and propagated through Monte Carlo to a yield estimate; correlation is even exploited deliberately, e.g. folding interferometer arms so that neighboring devices share variation that cancels.<sup class="fn">[B]</sup> Variation is characterized <em>by length scale</em> — waveguide thickness correlated over centimeters, linewidth over much shorter distances. This is the correct apparatus for asking whether a graphene–ferroelectric memory array is manufacturable, and it is more mature than anything a route-ranking exercise could supply.</p>
+    <p>The apparatus has a built-in assumption: the wafer map is <em>fixed</em>. Geometric variation is set at fabrication and characterized once. The premise of this paper is that the graphene–ferroelectric stack violates that assumption in a specific, physical way, and that the existing framework therefore needs one additional term. Supplying the measurement that would parameterize that term — not re-deriving correlation-length yield modeling, which already exists — is the contribution.</p>
+
+    <h3 class="sub">1.2 · Epistemic status, stated once</h3>
+    <p>This is a pre-experimental analysis. No working cell combining graphene gating, ferroelectric storage, and waveguide operation has been demonstrated; the quality thresholds used here are hypotheses for a 64×64 tile that has not been built, and the route bands are order-of-magnitude inferences, not yield predictions. Two layers should be held apart throughout. The <em>established layer</em>: wafer-scale graphene photonics is coverage-, mobility-, and integration-limited (imec / Graphene Flagship demonstrations reach ~80% device-area coverage and ~5000–10000&nbsp;cm²/V·s at 200&nbsp;mm scale<sup class="fn">[GF]</sup>); silicon variability-yield modeling is mature<sup class="fn">[B]</sup>; charge puddles and transfer disorder set real spatial limits.<sup class="fn">[a]</sup> The <em>inference layer</em>, which is this paper’s and is not yet supported by measurement: that a switch-coupled carrier-density disorder term governs array manufacturability for this stack, and that a decomposed, pre/post-switch <i>L</i><sub>corr</sub> is the measurement that resolves it.</p>
+  </section>
+
+  <section class="fade" id="s2">
+    <h2 class="sec"><span class="num">2</span>The missing term</h2>
+    <p>Photonic matrix-vector multipliers promise multiply–accumulate energies near 0.1&nbsp;fJ, far below DRAM-bound digital accelerators; the unsolved problem is non-volatile weight storage, and ferroelectric HfO₂-family films gating a graphene electrode are one candidate. A memory tile is an <em>N</em>×<em>N</em> array sharing one insertion-loss budget, so its manufacturability is a variability-yield question, and the established way to answer such questions is the hierarchical spatial-variability model: treat each functional parameter as a correlated random field, decompose it by length scale, project onto the layout, propagate to yield.<sup class="fn">[B]</sup></p>
+    <p>Applied to this stack, that model needs the carrier-density field <i>n</i>(<b>r</b>) across the tile, characterized by its spatial correlation length <i>L</i><sub>corr</sub> relative to the cell pitch. Two of its contributions are already familiar and behave like silicon geometric variation — a <em>fixed</em> map characterized once:</p>
+    <div class="defs">
+      <div class="def">
+        <span class="term">Short-scale, averageable.</span>
+        Ferroelectric grain/domain texture (~10–30&nbsp;nm) and intrinsic graphene charge puddles (~20&nbsp;nm on clean substrates, swelling toward ~100&nbsp;nm on charged-defect-rich HfO₂).<sup class="fn">[a]</sup> A ~µm optical mode integrates over many of these; <i>L</i><sub>corr</sub> &#8810; pitch, and a single global trim plausibly suffices — the regime the existing framework already handles well.
+      </div>
+      <div class="def">
+        <span class="term">Long-scale, fixed.</span>
+        Transfer wrinkles, folds, tears, and residue streaks correlated on ~µm scales. A wrinkle or trapped-residue bubble lifts the graphene off the oxide, locally lowering the gate capacitance <i>C</i><sub>ox</sub> and so the induced carrier density: transfer morphology imprints a µm-scale modulation of <i>n</i>* that no global trim removes. This is more severe than silicon linewidth variation but is still, in principle, a static map.
+      </div>
+    </div>
+    <p>The term that has no silicon analog — and that the static-map assumption cannot represent — is the third:</p>
+    <div class="defs">
+      <div class="def danger">
+        <span class="term">Switch-coupled, re-imprinted.</span>
+        Localized stress from graphene wrinkles and step edges can pin the underlying ferroelectric domain walls during polarization reversal. The long-scale transfer morphology then <em>writes</em> long-scale structure into the ferroelectric domain configuration, and because that configuration is reset on every write, the disorder is re-imprinted each cycle rather than fixed at fabrication. A model that characterizes the wafer once cannot capture a disorder field that is rewritten on every memory operation.
+      </div>
+    </div>
+    <div class="callout">
+      <strong>This switch-coupled term is the paper’s premise:</strong> that array manufacturability for the graphene–ferroelectric stack turns on a disorder component the mature variability-yield framework does not yet contain, and that the framework should be extended to include it. The claim is conditional and falsifiable — if the switch-coupled term is negligible and <i>L</i><sub>corr</sub> is short, the existing static-map machinery suffices unmodified and this premise is wrong (§5). The rest of the paper specifies the measurement that would settle it (§6, Exp.&nbsp;1) and, secondarily, a route-allocation heuristic (§3) for which integration routes are worth a wafer at all.
+    </div>
+    <p>This is recognizably the transition silicon CMOS made in the 1990s — from device-limited to variation-limited yield — with one twist specific to active ferroelectric memory: here the variation map is not merely fabricated but partly <em>re-written in operation</em>.</p>
+  </section>
+
+  <section class="fade" id="s3">
+    <h2 class="sec"><span class="num">3</span>The constraint typology</h2>
+    <p>We sort routes not by score but by the <em>kind</em> of wall they hit. The distinction is the one engineering decision the analysis can make with confidence even when the numbers are soft.</p>
+    <div class="defs">
+      <div class="def">
+        <span class="term">Type A — irreducible (substrate physics).</span>
+        The blocking quantity is fixed by the bulk crystallography or thermodynamics of the substrate. No catalyst, atmosphere, or anneal reported in the literature relieves it. <em>Closed.</em> Reopening requires a different substrate, not a different process.
+      </div>
+      <div class="def">
+        <span class="term">Type B — reducible (process kinetics).</span>
+        The blocking quantity is set by a kinetic variable — nucleation density, transfer-induced doping, termination chemistry — for which a physical knob exists. <em>Deferred,</em> not closed: the knob may not yet produce the required value, but the failure is not a law of physics.
+      </div>
+    </div>
+    <p>The typology is applied symmetrically and earned per route, not per family. A route is Type&nbsp;B only if a <em>specific, named</em> kinetic mechanism plausibly relieves the constraint; “in principle improvable” is not sufficient, or every route would be Type&nbsp;B. Symmetrically, Type&nbsp;A is not one thing: a UNCD route is irreducible by <em>crystallography</em> (a 2–5&nbsp;nm grain ceiling no anneal can lift), while SCD(111) direct graphitization is irreducible by <em>thermodynamics</em> (multilayer formation is favored on the bare (111) surface).</p>
+    <div class="callout">
+      Reducibility is, in reality, a continuum — degree-, time-, and economics-dependent. The binary is therefore not a metaphysical claim but a <strong>research-allocation heuristic</strong>: it asks only whether a known physical knob <em>plausibly couples</em> to the binding variable at all. If no such knob exists, the route is closed and no investment is warranted; if one does, the route earns a place in the experimental queue regardless of how far the knob must still travel. The first decision a group must make — spend nothing, or spend on an experiment — is itself binary.
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <caption><b>Table 1.</b> The eleven routes, sorted by constraint type. “Reported” is anchored to a cited measurement or empty where only a theoretical ceiling or analogy exists; “Author’s band” is the order-of-magnitude inference after adjustment — not a measured yield.</caption>
+        <thead>
+          <tr><th>Route</th><th>Binding constraint</th><th>Type</th><th>Reported</th><th>Author’s band</th><th>Anchor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A–D · UNCD graphitization</td><td>Domain size</td><td>A · irreducible</td><td>&lt;0.1%</td><td>&lt;0.1%</td><td class="tag t-measured">measured</td></tr>
+          <tr><td>E · SCD(111) direct</td><td>Mobility / n*</td><td>A · irreducible</td><td>&lt;0.1%</td><td>&lt;0.1%</td><td class="tag t-measured">measured</td></tr>
+          <tr><td>F1 · SCD(111) Ni, demonstrated</td><td>Mobility / n*</td><td>—</td><td>&lt;0.1%</td><td>&lt;0.1%</td><td class="tag t-measured">measured</td></tr>
+          <tr><td>F2 · SCD(111) Ni+H, ceiling</td><td>n*</td><td>B · reducible <sup class="fn">†</sup></td><td>none</td><td>tens of %</td><td class="tag t-theory">theoretical</td></tr>
+          <tr><td>G · CVD/Pt → SiO₂</td><td>n*, then mobility</td><td>B · reducible</td><td>low teens %</td><td>low teens %</td><td class="tag t-measured">measured</td></tr>
+          <tr><td>H · CVD/Cu → SiO₂</td><td>n*, then mobility</td><td>B · reducible</td><td>~10%</td><td>~10%</td><td class="tag t-measured">measured</td></tr>
+          <tr><td>I · CVD/Pt → hBN</td><td>Mobility</td><td>B · reducible</td><td>~1/3</td><td>~1/3</td><td class="tag t-measured">measured</td></tr>
+          <tr><td>J · CVD/Pt → SCD(111) bonded</td><td>n*, then mobility</td><td>B · reducible</td><td>none</td><td>~20–35%</td><td class="tag t-analogy">analogy</td></tr>
+          <tr><td>K · Direct PECVD on Al:HfO₂</td><td>Domain / mobility</td><td>B · reducible <sup class="fn">‡</sup></td><td>none</td><td>&lt;0.1%</td><td class="tag t-theory">theoretical</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.86em; color:var(--ink-soft);"><sup class="fn">†</sup> F2 is a theoretical ceiling; the reducible knob (H-termination) is named and physically motivated but the mobility gain from the 140&nbsp;cm²/V·s Kanada anchor toward the 8000–10000&nbsp;cm²/V·s phonon ceiling is undemonstrated. That ceiling is set by <em>remote</em> (substrate) polar-optical phonons, so it is a property of the diamond surface, not graphene alone. F1 and F2 must never be quoted as one route.&nbsp;&nbsp;<sup class="fn">‡</sup> K’s reducible knob is nucleation-site engineering on amorphous oxide — named, physically motivated, undemonstrated at the relevant length scale on HfO₂. Classified B by the same standard as F2 and held to the same burden of proof.</p>
+    <p>The reader who takes away only Table&nbsp;1 has the route layer of the paper. Routes A–E are closed; spend no further effort. Route I is the strongest <em>demonstrated</em> Type-B path and the rational place to start a device. Routes F2 and K are the high-ceiling bets, each gated on one named kinetic knob and one decisive experiment. Route J is a bridge whose existence rests on an unmeasured transfer penalty and should be treated as a hypothesis, not a route.</p>
+  </section>
+
+  <section class="fade" id="s4">
+    <h2 class="sec"><span class="num">4</span>The thresholds, and how much they matter</h2>
+    <p>Five criteria define the quality window. They are presented here as the assumptions most likely to be wrong, with the consequence of being wrong made explicit.</p>
+    <div class="tablewrap">
+      <table>
+        <caption><b>Table 2.</b> The five quality criteria. Thresholds derive from the optical tolerance chain of a 64×64 tile with a 0.5&nbsp;dB total insertion-loss budget — a device that has not been built; these are hypotheses.</caption>
+        <thead><tr><th>Parameter</th><th>Threshold</th><th>Physical basis</th></tr></thead>
+        <tbody>
+          <tr><td>Defect density I<sub>D</sub>/I<sub>G</sub></td><td>&lt; 0.1</td><td>carrier scattering; modulation depth</td></tr>
+          <tr><td>Domain size L</td><td>&gt; 10 µm</td><td>grain-boundary IL variance vs. mode width</td></tr>
+          <tr><td>Carrier mobility µ</td><td>&gt; 3000 cm²/V·s</td><td>Drude intraband absorption (§4.1)</td></tr>
+          <tr><td>Carrier-density uniformity n*</td><td>&lt; 10¹¹ cm⁻²</td><td><em>spatial</em> variation, not mean doping</td></tr>
+          <tr><td>Monolayer coverage</td><td>&gt; 95% area</td><td>bilayer islands collapse modulation depth</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">4.1 · Reconciling the mobility threshold</h3>
+    <p>A prior draft used µ &gt; 3000&nbsp;cm²/V·s while citing a transparency-modulator benchmark (Giambra et al., <em>ACS Nano</em>, 2021) that motivates a higher figure near 5000&nbsp;cm²/V·s. The two are not interchangeable. The reconciliation is physical and checkable. In the optical regime &omega;&tau; &#8811; 1 (here &omega;&tau; ~ 20 at 1550&nbsp;nm), the real part of the graphene intraband conductivity — the Drude loss term — scales as</p>
+    <div class="formula">\[ \sigma_1^{\text{intra}} \;\propto\; \frac{\tau}{1+(\omega\tau)^2} \;\xrightarrow{\;\omega\tau\gg1\;}\; \frac{1}{\omega^2\tau} \;\propto\; \frac{1}{\mu}\,, \qquad \tau = \frac{\mu E_F}{e v_F^2}\,, \]</div>
+    <p>so insertion loss from intraband absorption falls as 1/&mu; at fixed carrier density. Setting that loss equal to the per-cell IL allocation gives the threshold; for the present planar-gate geometry that crossing sits near 3000&nbsp;cm²/V·s. <em>The absolute crossing depends on the graphene–mode overlap factor, which is device-specific and not yet measured for this stack;</em> what is robust is the 1/&mu; scaling and the conclusion that the threshold lies in the few-thousand-cm²/V·s range.</p>
+
+    <h3 class="sub">4.2 · Threshold sensitivity</h3>
+    <p>Because every ranking is downstream of Table&nbsp;2, the question is not “what is the probability” but “how far does the conclusion move when a threshold moves.” The qualitative result is what matters: the <em>constraint type</em> of each route is invariant under threshold perturbation, even though the bands shift substantially.</p>
+    <div class="tablewrap">
+      <table>
+        <caption><b>Table 3.</b> Effect of perturbing each threshold on the leading routes. “Type stable” means the route does not move between irreducible and reducible classes. Magnitudes are illustrative.</caption>
+        <thead><tr><th>Perturbation</th><th>Route I</th><th>Route F2</th><th>Type stable?</th></tr></thead>
+        <tbody>
+          <tr><td>µ<sub>th</sub>: 3000 → 2000</td><td>band rises</td><td>rises</td><td>yes</td></tr>
+          <tr><td>µ<sub>th</sub>: 3000 → 5000</td><td>band falls sharply</td><td>falls</td><td>yes</td></tr>
+          <tr><td>L<sub>th</sub>: 10 → 5 µm</td><td>negligible</td><td>negligible</td><td>yes</td></tr>
+          <tr><td>n*<sub>th</sub>: 10¹¹ → 5×10¹⁰</td><td>band falls</td><td>falls</td><td>yes</td></tr>
+          <tr><td>gates: binary → continuous Kubo</td><td>+3 to +6 pts</td><td>small</td><td>yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The mobility threshold is the dominant lever: a swing from 2000 to 5000&nbsp;cm²/V·s moves Route I’s band by tens of points and can invert the I/F2 ordering at the cell level. This is why the crossover must be quoted as a range, and why no infrastructure decision should rest on it until the threshold is pinned to a measured device.</p>
+
+    <h3 class="sub">4.3 · Why binary gates are a placeholder</h3>
+    <p>Treating the five criteria as independent pass/fail gates is a deliberately conservative approximation; real waveguide loss is a continuous function of the Kubo conductivity, and the criteria are physically entangled — higher mobility can partly buffer higher carrier-density variance, so the binary gate may overstate the collapse. The <em>magnitude</em> of the array collapse is gate-dependent and probably pessimistic; the <em>existence</em> of an array-scale uniformity constraint is not — it follows from the 1/N tolerance scaling, which no softening of the gates removes.</p>
+    <p>Moving to the continuous model does not reorder the high-ceiling bets. For representative Route&nbsp;I parameters (µ ≈ 4000&nbsp;cm²/V·s, n ≈ 2×10¹¹&nbsp;cm⁻²) a continuous Kubo loss criterion recovers roughly +3 to +6 percentage points (≈33–39% → ≈38–44%) — real but small against the threshold uncertainty, and not approaching F2’s ceiling. <em>Illustrative, not measured;</em> the absolute number depends on the mode-overlap factor of §4.1. It does essentially nothing for F2 or K, which are blocked upstream of the loss function — F2 on termination chemistry and the substrate phonon ceiling, K on nucleation kinetics. Smoothing a gate cannot relieve a constraint that lives in the substrate.</p>
+  </section>
+
+  <section class="fade" id="s5">
+    <h2 class="sec"><span class="num">5</span>Array scaling: why the term matters</h2>
+    <p>Under a fixed total IL budget, the per-cell uniformity tolerance tightens as 1/N for an <em>N</em>×<em>N</em> tile. The consequence is what makes the disorder field, not the single cell, the manufacturability question.</p>
+    <div class="tablewrap">
+      <table>
+        <caption><b>Table 4.</b> Array scaling of Route I under the (deliberately pessimistic) assumption of independent cells and <em>no</em> post-fabrication calibration. The point is the collapse, not the exact numbers.</caption>
+        <thead><tr><th>Array</th><th>n* tolerance</th><th>Per-cell band</th><th>Fully-passing array, no trim</th></tr></thead>
+        <tbody>
+          <tr><td>16×16</td><td>~4×10¹¹ cm⁻²</td><td>~half</td><td>~10⁻²</td></tr>
+          <tr><td>32×32</td><td>~2×10¹¹ cm⁻²</td><td>~45%</td><td>&lt;10⁻³</td></tr>
+          <tr><td><strong>64×64</strong></td><td><strong>10¹¹ cm⁻²</strong></td><td>~one-third</td><td>≪10⁻³</td></tr>
+          <tr><td>128×128</td><td>~5×10¹⁰ cm⁻²</td><td>~quarter</td><td>negligible</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>At 64×64, a one-third per-cell band gives roughly 1,600 of 4,096 cells passing — a non-functional tile without calibration. No demonstrated route reaches the ≳80% per-cell band an uncalibrated array would need. So the device class is calibration-limited before it is quality-limited, and calibration feasibility is governed by one quantity: the spatial correlation length <i>L</i><sub>corr</sub> of carrier-density fluctuations relative to the cell pitch.</p>
+
+    <h3 class="sub">5.1 · The falsification hinge</h3>
+    <p>The premise turns on <em>which</em> of the three disorder terms of §2 dominates <i>L</i><sub>corr</sub>. If the short-scale terms (ferroelectric texture, puddles) dominate, the optical mode averages them, a global trim suffices, the existing static-map framework handles the stack unmodified, and <em>this paper’s premise is wrong</em> — a result the paper must be able to accept. If the long-scale fixed term (transfer morphology, via <i>C</i><sub>ox</sub> modulation) dominates, the framework needs the augmented static map. If the switch-coupled term is present, it needs a genuinely new, operation-dependent term. These are distinguishable only by decomposing <i>L</i><sub>corr</sub> and comparing it before and after a switching cycle — not by reporting a single scalar.</p>
+  </section>
+
+  <section class="fade" id="experiments">
+    <h2 class="sec"><span class="num">6</span>Experimental programme</h2>
+    <p>Five experiments, each producing one number that closes or opens a route, ordered by decision value: the disorder-field characterization runs first because it gates the value of all the others.</p>
+
+    <div class="exp">
+      <span class="eid">Exp. 1 · runs first</span>
+      <p class="etitle">Spatial carrier-density correlation length <i>L</i><sub>corr</sub>, decomposed.</p>
+      <p>KPFM or scanning-photocurrent microscopy over 50×50&nbsp;µm at sub-micron resolution, at each integration stage. The deliverable is the <em>separation</em> of sources: map the bare ferroelectric domain landscape (PFM on uncovered oxide) and the transferred-graphene disorder on a non-ferroelectric reference, then map the stack and decompose.</p>
+      <p class="decision"><b>Third-regime check (the dangerous coupling):</b> after a switching cycle, strip the graphene (or use back-gated PFM) and remap the bare ferroelectric domains. If the post-cycle domain morphology now matches the earlier µm-scale wrinkle map, a coupled mechanical/electrostatic domain-pinning regime exists — disorder that is non-volatile and re-imprinted on every switch, neither trimmable nor mode-averaged. This is the worst case for the architecture.</p>
+    </div>
+
+    <div class="exp">
+      <span class="eid">Exp. 2</span>
+      <p class="etitle">Route I structural mobility ceiling, continuous-loss readout.</p>
+      <p>On CVD/Pt → hBN, measure Hall mobility and, in parallel, the continuous Kubo-derived insertion loss of a fabricated single cell. <span class="decision"><b>Decision:</b> confirms Route I as the demonstrated entry point or exposes a hidden binder.</span></p>
+    </div>
+
+    <div class="exp">
+      <span class="eid">Exp. 3</span>
+      <p class="etitle">Route J transfer penalty, or eliminate the bridge.</p>
+      <p>Transfer CVD/Pt graphene to (a) SCD(111) bonded via 5/10/20&nbsp;nm SiO₂, (b) P(VDF-TrFE) dry transfer, (c) hBN hot pick-up reference. Hall µ and n* before/after each. <span class="decision"><b>Decision:</b> n* multiplier &lt;8× justifies SCD(111) infrastructure now; &gt;15× collapses J onto G and forbids diamond investment ahead of Exp.&nbsp;4.</span></p>
+    </div>
+
+    <div class="exp">
+      <span class="eid">Exp. 4</span>
+      <p class="etitle">Route F: does H-termination move mobility at all?</p>
+      <p>Hall mobility on SCD(111) across Ni thickness (0.5–5&nbsp;nm) and RTA (850–1050&nbsp;°C), before and after H-plasma, vs. the 140&nbsp;cm²/V·s Kanada anchor. <span class="decision"><b>Decision:</b> &gt;1000&nbsp;cm²/V·s opens Route F development; ≈ baseline closes the only structural bypass of Route I’s ceiling.</span></p>
+    </div>
+
+    <div class="exp">
+      <span class="eid">Exp. 5</span>
+      <p class="etitle">Route K: can direct oxide growth escape the amorphous limit?</p>
+      <p>Remote-plasma PECVD at 300/350/400&nbsp;°C on 10&nbsp;nm Al:HfO₂; full-surface 2D Raman autocorrelation (200&nbsp;nm step); van der Pauw Hall, 10–300&nbsp;K. <span class="decision"><b>Decision:</b> µ &gt; 1500&nbsp;cm²/V·s with correlation length &gt; 2&nbsp;µm elevates K to a transfer-free competitor; µ &lt; 150&nbsp;cm²/V·s or gate leakage &gt; 1&nbsp;pA/µm² closes it by substrate physics.</span></p>
+    </div>
+  </section>
+
+  <section class="fade" id="s7">
+    <h2 class="sec"><span class="num">7</span>What would have to be true for this to be wrong</h2>
+    <p>A premise is only as good as the result that would overturn it. Four:</p>
+    <ol class="fals">
+      <li><strong>If <i>L</i><sub>corr</sub> &#8810; pitch and the pre/post-switch maps are identical</strong> (Exp.&nbsp;1, short-scale-dominated, no switch coupling), then the disorder is a static, averageable field, a global trim suffices, and the existing variability-yield framework handles the stack unmodified. The paper’s premise — that a new term is needed — is wrong.</li>
+      <li><strong>If the pre- and post-switch <i>L</i><sub>corr</sub> maps coincide with the transfer-wrinkle map</strong> (Exp.&nbsp;1, third-regime check), the switch-coupled term is real and the framework extension is warranted — the premise’s strongest confirmation.</li>
+      <li><strong>If a working graphene-gated ferroelectric photonic cell is demonstrated at any route,</strong> the quality thresholds acquire their first experimental anchor and every band here must be recomputed. The analysis is explicitly a placeholder for that anchor.</li>
+      <li><strong>If <i>L</i><sub>corr</sub> &#8810; pitch but per-cell yield stays below ~10% after global trim</strong> — because uncorrelated point defects, not spatial correlation, exhaust the loss budget — then the framing is wrong in <em>direction</em>: uniformity was averageable, yet absolute cell quality still blocks the device. Route I’s own ~one-third band shows this is not hypothetical.</li>
+    </ol>
+    <p>None of these has been measured. The contribution is to state them in the order that most cheaply collapses the decision space, and to insist that the first wafer characterize the disorder field — decomposed, pre and post switch — before optimizing any single cell.</p>
+  </section>
+
+  <section class="fade" id="method">
+    <h2 class="sec"><span class="num">·</span>A note on method</h2>
+    <p>This paper was drafted in dialogue with large language models, used adversarially: successive drafts were stress-tested against independent model reviews, and the substantive corrections — ranges rather than point estimates, a constraint typology rather than a score, <i>L</i><sub>corr</sub> as the first experiment, and the repositioning onto the established variability-yield framework — originated in those critiques. A model that agrees is not a red team; the value came only from disagreement. The author retains sole responsibility for every estimate and conclusion. The standing invitation: the fastest way to improve this paper is to run Experiment&nbsp;1 and show its central claim is wrong.</p>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="anchors">
+      <p><b>Key anchors.</b></p>
+      <p><sup class="fn">[B]</sup> Foundational variability-yield framework this paper extends: Xing, Dong, Khan &amp; Bogaerts, “Hierarchical Model for Spatial Variations of Integrated Photonics” (IEEE, 2015); Bogaerts et al., “Predicting Yield of Photonic Circuits with Wafer-scale Fabrication Variability” (IEEE NEMO, 2019); “Layout-Aware Variability Analysis, Yield Prediction, and Optimization” (IEEE JSTQE 25(5), 2019); “Capturing the Effects of Spatial Process Variations in Silicon Photonic Circuits” (<em>ACS Photonics</em>, 2022).</p>
+      <p><sup class="fn">[GF]</sup> imec / Graphene Flagship 2D Pilot Line: 200&nbsp;mm CVD graphene on 300&nbsp;mm CMOS photonic wafers, BEOL-compatible, ~80% coverage, ~5000–10000&nbsp;cm²/V·s; CamGraPhIC (Ferrari/Romagnoli) wafer-scale graphene photonics — the established state of integration.</p>
+      <p><sup class="fn">[a]</sup> Samaddar et al., <em>Phys. Rev. Lett.</em> 116, 126804 (2016) — charge puddles grow toward the Dirac point but remain mesoscopic (~20&nbsp;nm on clean substrates; larger on charged-defect-rich HfO₂).</p>
+      <p>Kanada et al., <em>Diam. Relat. Mater.</em> 75, 105 (2017), <code>10.1016/j.diamond.2017.02.014</code> — Route F demonstrated, 140&nbsp;cm²/V·s. Aitkulova et al., <em>Phys. Status Solidi A</em> 222, 2400567 (2025) — F2 phonon ceiling (theory). Qian et al., <em>ACS Appl. Mater. Interfaces</em> 14(47), 53174 (2022) — Route K growth. Banszerus et al., <em>Sci. Adv.</em> 1, e1500222 (2015); Pizzocchero et al., <em>Nat. Commun.</em> 7, 11894 (2016) — Route I hBN. Yazyev &amp; Louie, <em>Nat. Mater.</em> 9, 806 (2010); Tsen et al., <em>Science</em> 336, 1143 (2012) — grain-boundary transport. Giambra et al., <em>ACS Nano</em> (2021) — modulator mobility benchmark. Xu et al., <em>Nat. Commun.</em> 16 (2025); Chen et al., <em>Nanoscale</em> (2025); Patil et al., <em>Small</em> (2025) — device-class endurance/energy context.</p>
+    </div>
+    <div class="repo-note">
+      Working paper · May 2026 · CC0 / public domain. &nbsp;Full prior parameter files and code available in this repository.
+      &nbsp;DOIs and venues are being verified against originals prior to formal submission.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- theme toggle: Auto -> Light -> Dark -> Auto ----
+  (function () {
+    const order = ['auto', 'light', 'dark'];
+    const labels = { auto: 'Auto', light: 'Light', dark: 'Dark' };
+    let i = 0;
+    const btn = document.getElementById('theme-toggle');
+    const lbl = document.getElementById('theme-label');
+    function apply() {
+      const mode = order[i];
+      if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', mode);
+      lbl.textContent = labels[mode];
+    }
+    btn.addEventListener('click', function () {
+      i = (i + 1) % order.length;
+      apply();
+    });
+    apply();
+  })();
+</script>
+
+<script>
+  // Progressive enhancement: only animate if everything below runs cleanly.
+  // Content is visible by default; this can only ADD motion, never hide text.
+  try {
+    if ('IntersectionObserver' in window) {
+      document.documentElement.classList.add('js-anim');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.fade').forEach(function (el, i) {
+        el.style.transitionDelay = Math.min(i * 40, 200) + 'ms';
+        io.observe(el);
+      });
+      // Safety net: if anything stalls, reveal everything after 1.2s.
+      setTimeout(function () {
+        document.querySelectorAll('.fade:not(.in)').forEach(function (el) { el.classList.add('in'); });
+      }, 1200);
+    }
+  } catch (err) {
+    // On any failure, drop the animation class so content shows unconditionally.
+    document.documentElement.classList.remove('js-anim');
+  }
+</script>
+</body>
+</html>
