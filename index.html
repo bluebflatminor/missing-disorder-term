@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
-<title>A Missing Disorder Term — Graphene–Ferroelectric Photonic Memory</title>
-<meta name="description" content="Extending photonic variability-yield models to the graphene–ferroelectric memory stack: a pre-experimental working paper.">
+<title>Measure the Disorder Field First — Graphene–Ferroelectric Photonic Memory</title>
+<meta name="description" content="A pre-experimental measurement heuristic for the graphene–ferroelectric photonic-memory stack: which quantity to characterize before committing a wafer, and one falsifiable hypothesis about what it might reveal.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -369,8 +369,8 @@
 <header>
   <div class="wrap">
     <p class="eyebrow">Working Paper · Pre-experimental analysis · May 2026</p>
-    <h1>A Missing Disorder Term
-      <span class="sub">Extending photonic variability-yield models to the graphene–ferroelectric memory stack</span>
+    <h1>Measure the Disorder Field First
+      <span class="sub">A pre-experimental heuristic for the graphene–ferroelectric photonic-memory stack</span>
     </h1>
     <p class="byline">
       <span class="name">Nils Haaland</span>
@@ -389,8 +389,8 @@
 
   <div class="abstract fade" id="abstract">
     <h2>Abstract</h2>
-    <p>Silicon photonics already has a mature apparatus for predicting circuit yield from wafer-scale fabrication variability: spatial variation is modeled as a correlated random field, decomposed by length scale, projected onto the layout through a sensitivity matrix, and propagated to yield (Bogaerts and co-workers, 2015–2019). That apparatus, not single-cell “hero” metrics, is the right tool for evaluating whether a graphene–ferroelectric photonic-memory array can be manufactured. This paper does not reinvent it. It argues that the existing framework is missing one term required for this specific material system, and identifies the measurement that would supply it.</p>
-    <p>The silicon variability models treat a <em>fixed</em> wafer map: geometric variation set by lithography and etch, characterized once. The dominant disorder in a graphene–ferroelectric stack is different in kind — carrier-density variation from charge puddles, transfer artifacts, and, critically, the switchable ferroelectric domain landscape. Because graphene transfer artifacts can mechanically pin ferroelectric domain walls, a component of the carrier-density disorder is <em>re-imprinted on every write cycle</em>: an active, switch-coupled term with no analog in silicon geometric variability and not captured by a static wafer map. We argue this term, not single-cell graphene quality, is the open question for array manufacturability, and that the measurement which would parameterize it is a spatial carrier-density correlation length <i>L</i><sub>corr</sub> taken <em>before and after a switching cycle</em>, decomposed to separate the fixed term from the switch-coupled one. As a secondary contribution, we sort eleven integration routes by constraint type — irreducible substrate physics versus reducible process kinetics — as a research-allocation heuristic for which routes warrant a wafer at all. The central claim is falsifiable: if the switch-coupled component is negligible and <i>L</i><sub>corr</sub> is short, the existing static-map framework suffices unmodified and the paper’s premise is wrong.</p>
+    <p>Silicon photonics already has a mature apparatus for predicting circuit yield from wafer-scale fabrication variability: spatial variation is modeled as a correlated random field, decomposed by length scale, projected onto the layout through a sensitivity matrix, and propagated to yield (Bogaerts and co-workers, 2015–2019). That apparatus, not single-cell “hero” metrics, is the right tool for evaluating whether a graphene–ferroelectric photonic-memory array can be manufactured. This paper does not reinvent it, and — importantly — does not claim the existing framework is known to be deficient. No working cell exists, and the static-map model has not yet been tried against one; on the engineering principle that a model is extended only when a real device defeats it, there is as yet no demonstrated gap. What the paper offers instead is a pre-experimental <em>measurement heuristic</em>: which quantity to characterize first, before committing an expensive wafer, and a falsifiable hypothesis about what that measurement might reveal.</p>
+    <p>The silicon variability models treat a <em>fixed</em> wafer map: geometric variation set by lithography and etch, characterized once. The dominant disorder in a graphene–ferroelectric stack may be different in kind — carrier-density variation from charge puddles, transfer artifacts, and the switchable ferroelectric domain landscape. The specific hypothesis this paper raises is that graphene transfer artifacts could mechanically pin ferroelectric domain walls, so that a component of the carrier-density disorder is <em>re-imprinted on every write cycle</em>: were it to exist, this would be an active, switch-coupled term with no analog in silicon geometric variability and not captured by a static wafer map. The paper does not assert this term is present — it identifies the measurement that would detect it: a spatial carrier-density correlation length <i>L</i><sub>corr</sub> taken <em>before and after a switching cycle</em>, decomposed to separate any fixed contribution from a switch-coupled one. As a second, more robust contribution, we sort eleven integration routes by constraint type — irreducible substrate physics versus reducible process kinetics — as a research-allocation heuristic for which routes warrant a wafer at all. The hypothesis is falsifiable, and its most likely outcome is null: if the switch-coupled component is negligible and <i>L</i><sub>corr</sub> is short, the existing static-map framework suffices unmodified and the conjectured term does not exist. That null result would itself be worth publishing.</p>
   </div>
 
   <section class="fade" id="s1">
@@ -406,7 +406,7 @@
   </section>
 
   <section class="fade" id="s2">
-    <h2 class="sec"><span class="num">2</span>The missing term</h2>
+    <h2 class="sec"><span class="num">2</span>A candidate term, and why it is only a candidate</h2>
     <p>Photonic matrix-vector multipliers promise multiply–accumulate energies near 0.1&nbsp;fJ, far below DRAM-bound digital accelerators; the unsolved problem is non-volatile weight storage, and ferroelectric HfO₂-family films gating a graphene electrode are one candidate. A memory tile is an <em>N</em>×<em>N</em> array sharing one insertion-loss budget, so its manufacturability is a variability-yield question, and the established way to answer such questions is the hierarchical spatial-variability model: treat each functional parameter as a correlated random field, decompose it by length scale, project onto the layout, propagate to yield.<sup class="fn">[B]</sup></p>
     <p>Applied to this stack, that model needs the carrier-density field <i>n</i>(<b>r</b>) across the tile, characterized by its spatial correlation length <i>L</i><sub>corr</sub> relative to the cell pitch. Two of its contributions are already familiar and behave like silicon geometric variation — a <em>fixed</em> map characterized once:</p>
     <div class="defs">
@@ -419,17 +419,17 @@
         Transfer wrinkles, folds, tears, and residue streaks correlated on ~µm scales. A wrinkle or trapped-residue bubble lifts the graphene off the oxide, locally lowering the gate capacitance <i>C</i><sub>ox</sub> and so the induced carrier density: transfer morphology imprints a µm-scale modulation of <i>n</i>* that no global trim removes. This is more severe than silicon linewidth variation but is still, in principle, a static map.
       </div>
     </div>
-    <p>The term that has no silicon analog — and that the static-map assumption cannot represent — is the third:</p>
+    <p>A third term <em>might</em> exist that has no silicon analog and that the static-map assumption could not represent — but it is conjectured, not observed:</p>
     <div class="defs">
       <div class="def danger">
-        <span class="term">Switch-coupled, re-imprinted.</span>
-        Localized stress from graphene wrinkles and step edges can pin the underlying ferroelectric domain walls during polarization reversal. The long-scale transfer morphology then <em>writes</em> long-scale structure into the ferroelectric domain configuration, and because that configuration is reset on every write, the disorder is re-imprinted each cycle rather than fixed at fabrication. A model that characterizes the wafer once cannot capture a disorder field that is rewritten on every memory operation.
+        <span class="term">Switch-coupled, re-imprinted (hypothesized).</span>
+        Localized stress from graphene wrinkles and step edges <em>could</em> pin the underlying ferroelectric domain walls during polarization reversal. If it does, the long-scale transfer morphology would <em>write</em> long-scale structure into the ferroelectric domain configuration, and because that configuration is reset on every write, the disorder would be re-imprinted each cycle rather than fixed at fabrication — a disorder field rewritten on every memory operation, which a once-characterized wafer map cannot capture. Every clause of that mechanism is an inference from known sub-effects (wrinkle stress fields; domain-wall pinning; ferroelectric reset); none has been observed in this stack, because the stack does not yet exist.
       </div>
     </div>
     <div class="callout">
-      <strong>This switch-coupled term is the paper’s premise:</strong> that array manufacturability for the graphene–ferroelectric stack turns on a disorder component the mature variability-yield framework does not yet contain, and that the framework should be extended to include it. The claim is conditional and falsifiable — if the switch-coupled term is negligible and <i>L</i><sub>corr</sub> is short, the existing static-map machinery suffices unmodified and this premise is wrong (§5). The rest of the paper specifies the measurement that would settle it (§6, Exp.&nbsp;1) and, secondarily, a route-allocation heuristic (§3) for which integration routes are worth a wafer at all.
+      <strong>It is important to be exact about the epistemic status of this term, because an earlier draft of this paper was not.</strong> That draft titled itself around a “missing disorder term” and asserted the variability-yield framework “should be extended” to include it. A reviewer (see Acknowledgements) correctly objected that this inverts the order of engineering inference: one extends a model when a real device defeats it, and here no device exists and the static model has not been tried. The objection is right, and the framing has been corrected. The switch-coupled term is a <em>falsifiable hypothesis</em>, not a known gap. The paper’s actual contribution is narrower and more defensible: a pre-experimental <em>heuristic</em> for which measurement to take first (§6, Exp.&nbsp;1), and a route-allocation table (§3) for which integration routes are worth a wafer at all. The most probable outcome of the proposed measurement is that the conjectured term is negligible — in which case the existing static-map framework needs no modification and this section’s hypothesis is simply wrong. That null result is the expected result, and it is still worth obtaining, because nobody has measured <i>L</i><sub>corr</sub> for this stack at all.
     </div>
-    <p>This is recognizably the transition silicon CMOS made in the 1990s — from device-limited to variation-limited yield — with one twist specific to active ferroelectric memory: here the variation map is not merely fabricated but partly <em>re-written in operation</em>.</p>
+    <p>This is recognizably the transition silicon CMOS made in the 1990s — from device-limited to variation-limited yield. The one speculative twist specific to active ferroelectric memory is whether the variation map is not merely fabricated but partly <em>re-written in operation</em>; that “whether” is the open question, not a settled claim.</p>
   </section>
 
   <section class="fade" id="s3">
@@ -588,7 +588,12 @@
 
   <section class="fade" id="method">
     <h2 class="sec"><span class="num">·</span>A note on method</h2>
-    <p>This paper was drafted in dialogue with large language models, used adversarially: successive drafts were stress-tested against independent model reviews, and the substantive corrections — ranges rather than point estimates, a constraint typology rather than a score, <i>L</i><sub>corr</sub> as the first experiment, and the repositioning onto the established variability-yield framework — originated in those critiques. A model that agrees is not a red team; the value came only from disagreement. The author retains sole responsibility for every estimate and conclusion. The standing invitation: the fastest way to improve this paper is to run Experiment&nbsp;1 and show its central claim is wrong.</p>
+    <p>This paper was drafted in dialogue with large language models, used adversarially: successive drafts were stress-tested against independent model reviews, and the substantive corrections — ranges rather than point estimates, a constraint typology rather than a score, <i>L</i><sub>corr</sub> as the first experiment, repositioning onto the established variability-yield framework, and the demotion of the central claim from an asserted “missing term” to a falsifiable hypothesis — each originated in an external critique rather than in the author’s own revision. That pattern is worth stating plainly: in every round, the author’s unforced tendency was to let framing outrun evidence, and in every round it took an adversarial reader to pull it back. A model that agrees is not a red team; the value came only from disagreement. The author retains sole responsibility for every estimate and conclusion. The standing invitation: the fastest way to improve this paper is to run Experiment&nbsp;1 and show its central hypothesis is wrong.</p>
+  </section>
+
+  <section class="fade" id="ack">
+    <h2 class="sec"><span class="num">·</span>Acknowledgements</h2>
+    <p>The reframing of this paper away from an asserted model deficiency and toward a pre-experimental measurement heuristic is owed to a reviewer who argued — correctly — that the prior draft was “a premature solution looking for a problem,” that a model is extended only when a real device defeats it, and that with no device yet built and the standard variability model never tried, the claimed “missing term” was a conjecture dressed as a gap. The criticism identified the single weakest point in the work and was directly responsible for the present framing. Errors that remain are the author’s.</p>
   </section>
 
 </div>
